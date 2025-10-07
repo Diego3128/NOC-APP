@@ -21,19 +21,24 @@ export class CheckService implements CheckServiceUseCase {
       const response = await fetch(url);
       if (!response.ok) throw new Error(`The url: ${url} is down.`);
       this.successCallback && this.successCallback();
-      const log = new LogEntity(
-        LogSeverityLevel.low,
-        `Service ${url} is working properly`
-      );
+      const log = new LogEntity({
+        level: LogSeverityLevel.low,
+        message: `Service ${url} is working properly`,
+        origin: __filename,
+        date: new Date(),
+      });
       await this.logRepository.saveLog(log);
       return response.ok;
     } catch (error) {
       const errorMessage = `${error}`;
-      const log = new LogEntity(
-        LogSeverityLevel.high,
-        `Error in service ${url}: ${errorMessage}`
-      );
-      await this.logRepository.saveLog(log);
+      
+      const errorLog = new LogEntity({
+        level: LogSeverityLevel.high,
+        message: `Service ${url} is NOT responding`,
+        origin: __filename,
+        date: new Date(),
+      });
+      await this.logRepository.saveLog(errorLog);
       this.errorCallback && this.errorCallback(errorMessage);
       return false;
     }
