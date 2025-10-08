@@ -13,9 +13,11 @@ export class Server {
   public static async start() {
     // send email
 
-    const emailService = new EmailService();
-    const wasSent = await emailService.sendEmailWithFileSystemLogs("test@gmail.com")
-    console.log({wasSent});
+    const emailService = new EmailService(fileSystemLogRepository);
+    const wasSent = await emailService.sendEmailWithFileSystemLogs(
+      "test@gmail.com"
+    );
+    console.log({ wasSent });
 
     // const job1 = CronService.createCronJob({
     //   cronTime: "*/5 * * * * *",

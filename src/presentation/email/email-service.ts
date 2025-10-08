@@ -2,6 +2,8 @@ import path from "path";
 import { envs } from "../../config/plugins/env.plugin";
 import sendGrid from "@sendgrid/mail";
 import fs from "fs";
+import { LogRepository } from "../../domain/repositories/log.repository";
+import { LogEntity, LogSeverityLevel } from "../../domain/entities/log.entity";
 
 interface EmailOptions {
   to: string;
@@ -20,6 +22,8 @@ export interface EmailAttachment {
 }
 
 export class EmailService {
+  constructor(private logRepository: LogRepository) {}
+
   async sendEmail(options: EmailOptions): Promise<boolean> {
     const { to, subject, htmlBody, text, attachments = [] } = options;
     try {
@@ -37,13 +41,20 @@ export class EmailService {
       });
       return response[0].statusCode === 202;
     } catch (e) {
+      const errorLog = new LogEntity({
+        level: LogSeverityLevel.high,
+        message: `The email could not be sent: error: ${e}`,
+        origin: __filename,
+      });
+      this.logRepository.saveLog(errorLog);
       return false;
     }
   }
 
   async sendEmailWithFileSystemLogs(to: string) {
     const subject = "Sever logs";
-    const text = "The following are the server logs containing exceptions categorized by severity: low - medium - high:";
+    const text =
+      "The following are the server logs containing exceptions categorized by severity: low - medium - high:";
     const htmlBody = `
     <h1>Sever logs</h1>
     <p>${text} </p>
@@ -75,6 +86,12 @@ export class EmailService {
           disposition: "attachment",
         });
       } catch (error) {
+        const errorLog = new LogEntity({
+          level: LogSeverityLevel.high,
+          message: `Could not attach log. ${error}`,
+          origin: __filename,
+        });
+        this.logRepository.saveLog(errorLog);
         console.warn(`Could not attach ${filePath}:`, error);
       }
     }
@@ -86,6 +103,15 @@ export class EmailService {
       text: "Attached are the latest server logs by severity level.",
       attachments,
     });
+
+    if (!wasSent) {
+      const errorLog = new LogEntity({
+        level: LogSeverityLevel.high,
+        message: `Daily log email was not sent`,
+        origin: __filename,
+      });
+      this.logRepository.saveLog(errorLog);
+    }
 
     return wasSent;
   }
