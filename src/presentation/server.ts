@@ -14,13 +14,8 @@ export class Server {
     // send email
 
     const emailService = new EmailService();
-    const wasSent = await emailService.sendEmail({
-      to: "testemail@gmail.com",
-      htmlBody: "<h1>This is a test email sent from NOC</h1>",
-      text: "This is a text email sent from NOC",
-      subject: "test email from nodejs",
-    });
-    console.log({wasSent})
+    const wasSent = await emailService.sendEmailWithFileSystemLogs("test@gmail.com")
+    console.log({wasSent});
 
     // const job1 = CronService.createCronJob({
     //   cronTime: "*/5 * * * * *",
