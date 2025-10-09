@@ -1,0 +1,12 @@
+services:
+  mongo-db:
+    container_name: mongo-db-container
+    image: mongo:7.0-jammy
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_DB_PASSWORD}
+    volumes:
+      - ./mongodb:/data/db      
+    ports:
+      - 27018:27017
