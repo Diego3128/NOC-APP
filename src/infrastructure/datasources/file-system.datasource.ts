@@ -41,6 +41,7 @@ export class FileSystemDatasource implements LogDatasource {
       level: newLog.level,
       message: newLog.message,
       date: new Date(),
+      origin: newLog.origin
     };
     const logAsString = `${JSON.stringify(logAsJson)}\n`;
     // all logs go to: this.logFilePaths.allSeverityPath
