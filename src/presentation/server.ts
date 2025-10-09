@@ -4,20 +4,22 @@ import { LogRepositoryImpl } from "../infrastructure/repositories/log.repository
 import { CronService } from "./cron/cron-service";
 import { EmailService } from "./email/email-service";
 import { envs } from "../config/plugins/env.plugin";
+import { SendEmailLogs } from "../domain/use-cases/email/send-email-logs";
 
 const fileSystemLogRepository = new LogRepositoryImpl(
   new FileSystemDatasource()
 );
+const emailService = new EmailService();
 export class Server {
   // start sever duh!
   public static async start() {
     // send email
-
-    const emailService = new EmailService(fileSystemLogRepository);
-    const wasSent = await emailService.sendEmailWithFileSystemLogs(
-      "test@gmail.com"
+    const sendEmailLogs = new SendEmailLogs(
+      emailService,
+      fileSystemLogRepository
     );
-    console.log({ wasSent });
+    const sent = await sendEmailLogs.execute([envs.EMAIL_RECEIVER ?? ""]);
+    console.log({ sent });
 
     // const job1 = CronService.createCronJob({
     //   cronTime: "*/5 * * * * *",
