@@ -18,8 +18,8 @@ export class Server {
       emailService,
       fileSystemLogRepository
     );
-    const sent = await sendEmailLogs.execute([envs.EMAIL_RECEIVER ?? ""]);
-    console.log({ sent });
+    // const sent = await sendEmailLogs.execute([envs.EMAIL_RECEIVER ?? ""]);
+    // console.log({ sent });
 
     // const job1 = CronService.createCronJob({
     //   cronTime: "*/5 * * * * *",

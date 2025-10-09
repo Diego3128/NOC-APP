@@ -9,4 +9,6 @@ export const envs = {
   SEND_GRID_API_KEY: env.get("SEND_GRID_API_KEY").asString(),
   EMAIL_RECEIVER: env.get("EMAIL_RECEIVER").asEmailString(),
   PROD: env.get("PROD").asBool(),
+  MONGO_DB_NAME: env.get("MONGO_DB_NAME").asString(),
+  MONGODB_URL: env.get("MONGODB_URL").asUrlString(),
 };
