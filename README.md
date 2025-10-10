@@ -21,13 +21,19 @@
 ```bash
 npm install
 ```
-2- create a `.env` file based on `.env.template`
+2- create a `.env` file based on `.env.template` (don't rename the template file, create a new .env file)
 
 ```bash 
 env.template -> .env
 ```
 
-3- start the app (development mode)
+3- Start the docker containers
+
+```bash
+docker-compose up -d
+```
+
+4- start the app (development mode)
 
 ```bash
 npm run dev
