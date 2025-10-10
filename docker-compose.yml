@@ -10,3 +10,15 @@ services:
       - ./mongodb:/data/db      
     ports:
       - 27018:27017
+  postgres-db:
+    container_name: postgres-container
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER : ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ./postgres:/var/lib/postgresql/data 
+    ports:
+      - 5432:5432
