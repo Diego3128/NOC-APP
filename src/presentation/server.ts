@@ -7,11 +7,14 @@ import { envs } from "../config/plugins/env.plugin";
 import { SendEmailLogs } from "../domain/use-cases/email/send-email-logs";
 import { MongoLogDatasource } from "../infrastructure/datasources/mongo-lg.datasource";
 import { LogSeverityLevel } from "../domain/entities/log.entity";
+import { PostgresLogDatasource } from "../infrastructure/datasources/postgres-log-datasource";
 
 // save in fylesystem
 const fileSystemLogRepository = new LogRepositoryImpl(new FileSystemDatasource());
 // save in mongodb
 const mongoLogRepository = new LogRepositoryImpl(new MongoLogDatasource());
+// save in postgres
+const postgresLogRepository = new LogRepositoryImpl(new PostgresLogDatasource());
 
 const emailService = new EmailService();
 export class Server {
@@ -25,23 +28,29 @@ export class Server {
     // const sent = await sendEmailLogs.execute([envs.EMAIL_RECEIVER ?? ""]);
     // console.log({ sent });
 
-    const logs = await fileSystemLogRepository.getLogs(LogSeverityLevel.high);
+    // const logs = await fileSystemLogRepository.getLogs(LogSeverityLevel.high);
     // console.log(logs);
 
-    // const job1 = CronService.createCronJob({
-    //   cronTime: "*/5 * * * * *",
-    //   onTick: () => {
-    //     const URL = "https://google2.com";
-    //     new CheckService(
-    //       mongoLogRepository, //logRepository
-    //       () => { //onsuccesscallback
-    //         console.log(`Url ${URL} is ok`);
-    //       },
-    //       (error) => { // onerrorcallback
-    //         console.log(error);
-    //       }
-    //     ).execute(URL);
-    //   },
-    // });
+    // const logs = await mongoLogRepository.getLogs(LogSeverityLevel.medium);
+    // console.log(logs);
+
+    // const logs = await postgresLogRepository.getLogs(LogSeverityLevel.high);
+    // console.log(logs);
+
+    const job1 = CronService.createCronJob({
+      cronTime: "*/5 * * * * *",
+      onTick: () => {
+        const URL = "https://google.com";
+        new CheckService(
+          postgresLogRepository, //logRepository
+          () => { //onsuccesscallback
+            console.log(`Url ${URL} is ok`);
+          },
+          (error) => { // onerrorcallback
+            console.log(error);
+          }
+        ).execute(URL);
+      },
+    });
   }
 }

@@ -6,7 +6,7 @@ export class MongoLogDatasource implements LogDatasource {
   async saveLog(log: LogEntity): Promise<void> {
     const newLog = new LogModel(log);
     const result = await newLog.save();
-    console.log(`New log saved: ${result.id}`);
+    console.log(`Mongo: New log saved: ${result.id}`);
   }
   async getLogs(severityLevel: LogSeverityLevel): Promise<LogEntity[]> {
     const logs = await LogModel.where({ level: severityLevel });
