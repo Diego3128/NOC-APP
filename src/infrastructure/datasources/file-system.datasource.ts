@@ -41,7 +41,7 @@ export class FileSystemDatasource implements LogDatasource {
       level: newLog.level,
       message: newLog.message,
       date: new Date(),
-      origin: newLog.origin
+      origin: newLog.origin,
     };
     const logAsString = `${JSON.stringify(logAsJson)}\n`;
     // all logs go to: this.logFilePaths.allSeverityPath
@@ -59,6 +59,7 @@ export class FileSystemDatasource implements LogDatasource {
         fs.appendFileSync(this.logFilePaths.highSeverityPath, logAsString);
         break;
     }
+    console.log(`Filesystem: New log saved: ${logAsJson.level}`);
   }
 
   private getLogsFromFile(path: string): LogEntity[] {
@@ -67,11 +68,15 @@ export class FileSystemDatasource implements LogDatasource {
     // " { "level": "low", "message": "... ", "date": 21121212,} \n
     //   { "level": "low", "message": "...", "date": 21121212,} \n "
     // separate logs by "\n"
-    const stringLogs = content.split("\n");
+    let stringLogs = content.split("\n");
+    // ignore empty logs
+    stringLogs = stringLogs.filter(log => log !== "");
     // convert to valid objects
-    const logs = stringLogs.map((log) =>
-      LogEntity.createLogFromJsonString(log)
-    );
+    const logs = stringLogs.map((log) => {
+      // console.log({log});
+      // console.log("--------------");
+      return LogEntity.createLogFromJsonString(log);
+    });
     return logs || [];
   }
 
