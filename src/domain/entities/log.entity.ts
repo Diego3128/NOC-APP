@@ -29,7 +29,6 @@ export class LogEntity {
     // "{ "level": "low", "message": "... ", "date": 21121212, "origin": "path-to-file-name.ts"}"
     const { level, message, date, origin } = JSON.parse(jsonData);
     // validate keys
-    console.log({jsonData: JSON.parse(jsonData)})
     if (!level || !message || !date || !origin)
       throw new Error("Invalid log data");
     const log = new LogEntity({

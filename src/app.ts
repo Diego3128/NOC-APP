@@ -1,3 +1,4 @@
+import prisma from "./config/lib/prisma";
 import { envs } from "./config/plugins/env.plugin";
 import { MongoDatabase } from "./data/mongo";
 import { LogModel } from "./data/mongo/models/log.model";
@@ -14,19 +15,5 @@ async function main() {
     mongoURL: envs.MONGODB_URL ?? "",
   });
 
-  // create document
-  // const newLog = new LogModel({
-  //   message: "custom message",
-  //   origin: __filename,
-  //   level: "medium",
-  // });
-  // const result = await newLog.save();
-  // console.log(result);
-
-  // find document
-  //   const logs = await LogModel.find();
-  // console.log(logs);
-
-  // console.log(envs);
   Server.start();
 }

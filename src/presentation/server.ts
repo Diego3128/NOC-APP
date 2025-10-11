@@ -25,8 +25,8 @@ export class Server {
     // const sent = await sendEmailLogs.execute([envs.EMAIL_RECEIVER ?? ""]);
     // console.log({ sent });
 
-    const logs = await fileSystemLogRepository.getLogs(LogSeverityLevel.low);
-    console.log(logs);
+    const logs = await fileSystemLogRepository.getLogs(LogSeverityLevel.high);
+    // console.log(logs);
 
     // const job1 = CronService.createCronJob({
     //   cronTime: "*/5 * * * * *",
