@@ -1,7 +1,5 @@
-import prisma from "./config/lib/prisma";
 import { envs } from "./config/plugins/env.plugin";
 import { MongoDatabase } from "./data/mongo";
-import { LogModel } from "./data/mongo/models/log.model";
 import { Server } from "./presentation/server";
 
 (async () => {
