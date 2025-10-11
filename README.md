@@ -12,7 +12,8 @@
 - `Postgres`
 - `Mongodb`
 - `Docker`
-
+- `Mongoose`
+- `Prisma`
 
 ## Start the app
 
