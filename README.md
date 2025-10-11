@@ -34,7 +34,13 @@ env.template -> .env
 docker-compose up -d
 ```
 
-4- start the app (development mode)
+4- Run prisma migrations and generate the client
+
+```bash
+npx prisma migrate dev
+```
+
+5- start the app (development mode)
 
 ```bash
 npm run dev
