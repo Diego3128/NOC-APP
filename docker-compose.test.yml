@@ -1,0 +1,24 @@
+services:
+  mongo-db:
+    container_name: mongo-db-container
+    image: mongo:7.0-jammy
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_DB_PASSWORD}
+    volumes:
+      - ./mongodb-test:/data/db      
+    ports:
+      - 27018:27017
+  postgres-db:
+    container_name: postgres-container
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER : ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ./postgres-test:/var/lib/postgresql/data 
+    ports:
+      - 5432:5432

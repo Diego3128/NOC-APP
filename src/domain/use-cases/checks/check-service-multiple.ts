@@ -44,7 +44,7 @@ export class CheckServiceMultiple implements CheckServiceUseCase {
     }
   }
 
-  private async saveLogInRepositories(log: LogEntity) {
+  public async saveLogInRepositories(log: LogEntity) {
     const logPromises = this.logRepositories.map((logRepo) => {
       return logRepo.saveLog(log);
     });

@@ -24,10 +24,10 @@ export class PostgresLogDatasource implements LogDatasource {
       const logSeverity =
         LogSeverityLevel[log.level.toLowerCase() as LogSeverityLevel] ??
         LogSeverityLevel.low;
-      return {
+      return new LogEntity({
         ...log,
         level: logSeverity,
-      };
+      });
     });
     return filteredLogs || [];
   }

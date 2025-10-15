@@ -2,10 +2,8 @@ import path from "path";
 import { envs } from "../../config/plugins/env.plugin";
 import sendGrid from "@sendgrid/mail";
 import fs from "fs";
-import { LogEntity, LogSeverityLevel } from "../../domain/entities/log.entity";
-import { error } from "console";
 
-interface EmailOptions {
+export interface EmailOptions {
   to: string | string[];
   subject: string;
   htmlBody: string;

@@ -16,6 +16,7 @@
     // "sourceMap": true
     // "isolatedModules": true,
     // "verbatimModuleSyntax": false
+    "isolatedModules": true // for jest
 
   },
   "include": ["src/**/*.ts"],

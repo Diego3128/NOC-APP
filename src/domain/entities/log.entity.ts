@@ -25,8 +25,7 @@ export class LogEntity {
   }
 
   public static createLogFromJsonString(jsonData: string): LogEntity {
-    // jsonData looks like:
-    // "{ "level": "low", "message": "... ", "date": 21121212, "origin": "path-to-file-name.ts"}"
+    // jsonData looks like: "{ "level": "low", "message": "... ", "date": 21121212, "origin": "path-to-file-name.ts"}"
     const { level, message, date, origin } = JSON.parse(jsonData);
     // validate keys
     if (!level || !message || !date || !origin)
@@ -48,12 +47,11 @@ export class LogEntity {
     }
     const severityLevel =
       LogSeverityLevel[level as LogSeverityLevel] ?? LogSeverityLevel.low;
-    const log = new LogEntity({
+    return new LogEntity({
       level: severityLevel,
       message: message as string,
       origin,
-      date,
+      date: new Date(date),
     });
-    return log;
   }
 }
