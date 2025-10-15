@@ -1,6 +1,8 @@
 import * as env from "env-var";
 import { config } from "dotenv";
-config(); // loads env variables from /.env file
+config({
+  quiet: true,
+}); // loads env variables from /.env file
 
 // parse and export env variables
 export const envs = {

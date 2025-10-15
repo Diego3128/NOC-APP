@@ -40,7 +40,7 @@ export class FileSystemDatasource implements LogDatasource {
     const logAsJson: LogEntity = {
       level: newLog.level,
       message: newLog.message,
-      date: new Date(),
+      date: newLog.date || new Date(),
       origin: newLog.origin,
     };
     const logAsString = `${JSON.stringify(logAsJson)}\n`;
@@ -58,6 +58,8 @@ export class FileSystemDatasource implements LogDatasource {
       case "high":
         fs.appendFileSync(this.logFilePaths.highSeverityPath, logAsString);
         break;
+      default:
+        throw new Error(`Unknown log level: ${newLog.level}`);
     }
     console.log(`Filesystem: New log saved: ${logAsJson.level}`);
   }
@@ -70,7 +72,7 @@ export class FileSystemDatasource implements LogDatasource {
     // separate logs by "\n"
     let stringLogs = content.split("\n");
     // ignore empty logs
-    stringLogs = stringLogs.filter(log => log !== "");
+    stringLogs = stringLogs.filter((log) => log !== "");
     // convert to valid objects
     const logs = stringLogs.map((log) => {
       // console.log({log});
@@ -89,7 +91,7 @@ export class FileSystemDatasource implements LogDatasource {
       case "high":
         return this.getLogsFromFile(this.logFilePaths.highSeverityPath);
       default:
-        throw new Error(`severityLevel ${severityLevel} not implemented`);
+        throw new Error(`Severity Level ${severityLevel} is not implemented`);
     }
   }
 }

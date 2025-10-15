@@ -6,15 +6,24 @@
   "scripts": {
     "dev": "tsnd --respawn --clear src/app.ts",
     "build": "rimraf ./dist && tsc",
-    "start": "npm run build && node dist/app.js"
+    "start": "npm run build && node dist/app.js",
+    "prisma:migrate:test": "dotenv -e .env.test -- npx prisma migrate dev",
+    "docker:test": "docker compose -f docker-compose.test.yml --env-file .env.test up -d",
+    "test:watch": "npm run docker:test && npm run prisma:migrate:test && jest --watch",
+    "test:coverage": "npm run docker:test && jest --coverage"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.6.2",
+    "dotenv-cli": "^10.0.0",
+    "jest": "^30.2.0",
     "prisma": "^6.17.1",
     "rimraf": "^6.0.1",
+    "supertest": "^7.1.4",
+    "ts-jest": "^29.4.5",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3"
   },
